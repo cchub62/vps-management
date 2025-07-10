@@ -1,0 +1,29 @@
+# Backups
+backups/
+*.tar.gz
+*.zip
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Credentials
+*.pem
+*.key
+*.crt
+
+# Local configs
+configs/local/

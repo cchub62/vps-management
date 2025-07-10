@@ -1,0 +1,36 @@
+name: Backup to GitHub Release
+
+on:
+  schedule:
+    # Run weekly on Sundays at 5 AM UTC
+    - cron: '0 5 * * 0'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Create backup archive
+      run: |
+        # This would typically be run on your VPS
+        # For GitHub Actions, we'll create a placeholder
+        echo "This workflow should be triggered from your VPS"
+        echo "Use the backup-manager.sh script with GitHub CLI"
+    
+    - name: Create Release
+      if: false  # Disabled by default
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: backup-${{ github.run_number }}
+        release_name: VPS Backup ${{ github.run_number }}
+        body: |
+          Automated VPS backup
+          Date: ${{ github.event.repository.updated_at }}
+        draft: false
+        prerelease: false

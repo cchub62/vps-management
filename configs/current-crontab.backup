@@ -1,0 +1,2 @@
+0 2 * * * /home/rmlve/cch/scripts/backup-database.sh >> /home/rmlve/cch/logs/backup.log 2>&1
+0 23 * * * /home/rmlve/cch/scripts/end-of-day-check.sh >> /home/rmlve/cch/logs/daily-health.log 2>&1

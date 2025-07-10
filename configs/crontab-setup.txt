@@ -1,0 +1,17 @@
+# VPS Management Cron Jobs
+# Add these to your crontab with: crontab -e
+
+# Log rotation - daily at 2 AM
+0 2 * * * /home/rmlve/vps-management/scripts/log-rotation.sh >> /home/rmlve/logs/cron.log 2>&1
+
+# Backup - daily at 3 AM
+0 3 * * * /home/rmlve/vps-management/scripts/backup-manager.sh >> /home/rmlve/logs/backup.log 2>&1
+
+# Space cleanup - weekly on Sundays at 4 AM
+0 4 * * 0 /home/rmlve/vps-management/scripts/space-cleaner.sh >> /home/rmlve/logs/cleanup.log 2>&1
+
+# Health check - every hour
+0 * * * * /home/rmlve/vps-management/scripts/health-check.sh
+
+# Emergency space cleanup - when disk usage is critical (every 30 minutes)
+*/30 * * * * [ $(df / | awk 'NR==2 {print int($5)}') -gt 85 ] && /home/rmlve/vps-management/scripts/space-cleaner.sh >> /home/rmlve/logs/emergency-cleanup.log 2>&1
