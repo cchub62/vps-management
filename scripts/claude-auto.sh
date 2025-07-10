@@ -81,18 +81,16 @@ $CONTEXT_MANAGER save >/dev/null 2>&1
 trap '$CONTEXT_MANAGER save; $CONTEXT_MANAGER log "SESSION_END" "Claude session terminated"' EXIT
 
 # 8. Launch Claude or provide instructions
-if command -v claude &> /dev/null; then
+CLAUDE_BIN="/home/rmlve/.npm-global/bin/claude"
+
+if [ -x "$CLAUDE_BIN" ]; then
     echo -e "${GREEN}Launching Claude with context loaded...${NC}"
-    # Pass context as initial message
-    CONTEXT_JSON=$($CONTEXT_MANAGER load)
-    claude "$@"
+    echo ""
+    # Launch Claude with dangerous permissions flag
+    exec $CLAUDE_BIN --dangerously-skip-permissions "$@"
 else
     echo -e "${GREEN}Context loaded successfully!${NC}"
     echo ""
-    echo "To use this context with Claude:"
-    echo "1. The context summary is displayed above"
-    echo "2. CLAUDE.md has been updated with current context"
-    echo "3. Activity logging is active"
-    echo ""
-    echo "Run 'claude' with your normal command"
+    echo "Claude binary not found at: $CLAUDE_BIN"
+    echo "Please update the path in this script"
 fi
